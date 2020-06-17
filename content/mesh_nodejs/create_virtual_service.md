@@ -11,7 +11,7 @@ Even though the Mesh is already created in the App Mesh service, we still need t
 ```bash
 # Create the Mesh yaml file
 cat <<"EOF" > ~/environment/eks-scripts/mesh.yml
-apiVersion: appmesh.k8s.aws/v1beta1
+apiVersion: appmesh.k8s.aws/v1beta2
 kind: Mesh
 metadata:
   name: appmesh-workshop
@@ -30,7 +30,7 @@ NODEJS_LB_URL=$(kubectl get service nodejs-app-service -n appmesh-workshop-ns -o
 
 # Create Virtual Node yaml file
 cat <<EOF > ~/environment/eks-scripts/virtual-node.yml
-apiVersion: appmesh.k8s.aws/v1beta1
+apiVersion: appmesh.k8s.aws/v1beta2
 kind: VirtualNode
 metadata:
   name: nodejs-app
@@ -43,7 +43,7 @@ spec:
         protocol: http
   serviceDiscovery:
     dns:
-      hostName: $NODEJS_LB_URL
+      hostname: $NODEJS_LB_URL
 EOF
 
 # Apply the configuration
@@ -55,7 +55,7 @@ Now, create your virtual service:
 ```bash
 # Create Virtual Service yaml file
 cat <<EOF > ~/environment/eks-scripts/virtual-service.yml
-apiVersion: appmesh.k8s.aws/v1beta1
+apiVersion: appmesh.k8s.aws/v1beta2
 kind: VirtualService
 metadata:
   name: nodejs.appmeshworkshop.hosted.local
